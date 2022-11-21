@@ -8,7 +8,7 @@ provider "google" {
 module "storage" {
   source = "../"
 
-  name        = "sys"
+  name        = "dev_storage"
   environment = var.environment
   label_order = var.label_order
 
