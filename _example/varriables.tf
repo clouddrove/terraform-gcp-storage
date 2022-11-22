@@ -10,13 +10,6 @@ variable "label_order" {
   description = "Label order, e.g. `name`,`application`."
 }
 
-variable "gcp_credentials" {
-  type        = string
-  default     = ""
-  sensitive   = true
-  description = "Google Cloud service account credentials"
-}
-
 variable "gcp_project_id" {
   type        = string
   default     = "clouddrove"

@@ -6,101 +6,79 @@ module "labels" {
   label_order = var.label_order
 }
 
-resource "google_storage_bucket" "default" {
-  count = var.google_storage_bucket_enabled && var.module_enabled ? 1 : 0
+resource "google_storage_bucket" "bucket" {
+  count = var.enabled ? 1 : 0
 
-  name          = module.labels.id
-  project       = var.project_id
-  location      = var.location
-  storage_class = var.storage_class
-  force_destroy = var.force_destroy
+  name                        = module.labels.id
+  project                     = var.project_id
+  location                    = var.location
+  force_destroy               = var.force_destroy
+  uniform_bucket_level_access = var.uniform_bucket_level_access
+  storage_class               = var.storage_class
+  default_event_based_hold    = var.default_event_based_hold
+  public_access_prevention    = var.public_access_prevention
+  requester_pays              = var.requester_pays
 
-  versioning {
-    enabled = var.versioning_enabled
-  }
-
-  dynamic "logging" {
-    for_each = var.log_bucket == "" ? [] : [1]
+  dynamic "encryption" {
+    for_each = var.default_kms_key_name != null ? ["encryption"] : []
     content {
-      log_bucket        = var.log_bucket
-      log_object_prefix = var.log_object_prefix
+      default_kms_key_name = var.default_kms_key_name
     }
   }
 
-  dynamic "encryption" {
-    for_each = var.kms_key_sl == "" ? [] : [1]
+  dynamic "logging" {
+    for_each = var.logging != null ? ["logging"] : []
+
     content {
-      default_kms_key_name = var.kms_key_sl
+      log_bucket        = var.logging.log_bucket
+      log_object_prefix = var.logging.log_object_prefix
     }
   }
 
   dynamic "retention_policy" {
-    for_each = var.retention_policy_retention_period == "" ? [] : [1]
-    content {
-      is_locked        = var.retention_policy_is_locked
-      retention_period = var.retention_policy_retention_period
-    }
-  }
+    for_each = var.retention_policy != null ? ["retention_policy"] : []
 
-  dynamic "website" {
-    for_each = var.website_main_page_suffix == "" ? [] : [1]
     content {
-      main_page_suffix = var.website_main_page_suffix
-      not_found_page   = var.website_not_found_page
+      retention_period = var.retention_policy.retention_period
+      is_locked        = try(var.retention_policy.is_locked, null)
     }
   }
 
   dynamic "cors" {
-    for_each = var.has_cors ? [1] : []
+    for_each = var.cors
+
     content {
-      origin          = var.cors_origins
-      method          = var.cors_methods
-      response_header = var.cors_response_headers
-      max_age_seconds = var.cors_max_age_seconds
+      origin          = try(cors.value.origin, null)
+      method          = try(cors.value.method, null)
+      response_header = try(cors.value.response_header, null)
+      max_age_seconds = try(cors.value.max_age_seconds, null)
     }
   }
 
-  //noinspection HILUnresolvedReference
-  dynamic "lifecycle_rule" {
-    for_each = [for rule in var.lifecycle_rules : {
-      action_type          = rule.action.type
-      action_storage_class = lookup(rule.action, "storage_class", null)
+  versioning {
+    enabled = var.versioning
+  }
 
-      condition_age                   = lookup(rule.condition, "age", null)
-      condition_created_before        = lookup(rule.condition, "created_before", null)
-      condition_with_state            = lookup(rule.condition, "with_state", null)
-      condition_matches_storage_class = lookup(rule.condition, "matches_storage_class", null)
-      condition_num_newer_versions    = lookup(rule.condition, "num_newer_versions", null)
-    }]
+  dynamic "lifecycle_rule" {
+    for_each = var.lifecycle_rules
 
     content {
       action {
-        type          = lifecycle_rule.value.action_type
-        storage_class = lifecycle_rule.value.action_storage_class
+        storage_class = lifecycle_rule.value.action.type == "SetStorageClass" ? lifecycle_rule.value.action.storage_class : null
+        type          = lifecycle_rule.value.action.type
       }
       condition {
-        age                   = lifecycle_rule.value.condition_age
-        created_before        = lifecycle_rule.value.condition_created_before
-        with_state            = lifecycle_rule.value.condition_with_state
-        matches_storage_class = lifecycle_rule.value.condition_matches_storage_class
-        num_newer_versions    = lifecycle_rule.value.condition_num_newer_versions
+        age                        = try(lifecycle_rule.value.condition.age, null)
+        created_before             = try(lifecycle_rule.value.condition.created_before, null)
+        noncurrent_time_before     = try(lifecycle_rule.value.condition.noncurrent_time_before, null)
+        matches_storage_class      = try(lifecycle_rule.value.condition.matches_storage_class, null)
+        num_newer_versions         = try(lifecycle_rule.value.condition.num_newer_versions, null)
+        custom_time_before         = try(lifecycle_rule.value.condition.custom_time_before, null)
+        days_since_custom_time     = try(lifecycle_rule.value.condition.days_since_custom_time, null)
+        with_state                 = try(lifecycle_rule.value.condition.with_state, null)
+        days_since_noncurrent_time = try(lifecycle_rule.value.condition.days_since_noncurrent_time, null)
       }
     }
   }
-}
 
-resource "google_storage_bucket_acl" "with_predefined_acl" {
-  count = var.google_storage_bucket_acl_enabled && var.module_enabled ? 1 : 0
-
-  bucket         = module.labels.id
-  default_acl    = var.default_acl
-  predefined_acl = var.predefined_acl
-}
-
-resource "google_storage_bucket_acl" "with_role_entity" {
-  count = var.google_storage_bucket_acl_enabled && var.module_enabled ? 1 : 0
-
-  bucket      = module.labels.id
-  default_acl = var.default_acl
-  role_entity = var.role_entity
 }

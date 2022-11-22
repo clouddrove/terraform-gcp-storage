@@ -1,19 +1,24 @@
 output "id" {
+  value       = join("", google_storage_bucket.bucket.*.id)
   description = "GCS bucket id."
-  value       = join("", google_storage_bucket.default.*.id)
 }
 
 output "name" {
+  value       = join("", google_storage_bucket.bucket.*.name)
   description = "GCS bucket name."
-  value       = join("", google_storage_bucket.default.*.name)
 }
 
 output "self_link" {
+  value       = join("", google_storage_bucket.bucket.*.self_link)
   description = "URI of the GCS bucket."
-  value       = join("", google_storage_bucket.default.*.self_link)
 }
 
 output "url" {
+  value       = join("", google_storage_bucket.bucket.*.url)
   description = "The base URL of the bucket, in the format gs://<bucket-name>"
-  value       = join("", google_storage_bucket.default.*.url)
+}
+
+output "bucket" {
+  value       = one(google_storage_bucket.bucket)
+  description = "All attributes of the created `google_storage_bucket` resource."
 }
