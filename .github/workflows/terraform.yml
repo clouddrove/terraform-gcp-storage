@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-          uses: actions/checkout@master
+        uses: actions/checkout@master
 
       - name: Auth Gcp
         uses: google-github-actions/auth@v1
