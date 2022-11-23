@@ -36,7 +36,6 @@ jobs:
     steps:
       - name: Checkout Repo
           uses: actions/checkout@master
-          # Setup gcloud CLI
 
       - name: Auth Gcp
         uses: google-github-actions/auth@v1
