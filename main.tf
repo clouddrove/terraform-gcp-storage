@@ -1,6 +1,6 @@
 module "labels" {
-  source  = "clouddrove/labels/gcp"
-  version = "1.0.0"
+  source      = "clouddrove/labels/gcp"
+  version     = "1.0.0"
   name        = var.name
   environment = var.environment
   label_order = var.label_order
