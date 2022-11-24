@@ -42,16 +42,15 @@ usage: |-
   ### Default Bucket
   ```hcl
   module "bucket" {
-  source = "../"
+  source = "clouddrove/storage/google"
+  version     = "1.0.0"
+
 
   name        = "storage-bucket"
   environment = "test-main-bukcet"
   label_order = ["name", "environment"]
-
-
   location   = "US"
   project_id = "clouddrove"
-
 
   #website
   website = {
