@@ -52,8 +52,6 @@ usage : |-
   project_id  = "clouddrove"
   location    = "US"
 }
-
-  ```
   ### Encryption Bucket
   ```hcl
   module "bucket" {
