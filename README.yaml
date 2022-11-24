@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name : Terraform gcp storage
+name : Terraform google storage
 
 # License of this project
 license: "APACHE"
@@ -60,11 +60,8 @@ usage : |-
   name        = "storage-bucket"
   environment = "test-main-bukcet"
   label_order = ["name", "environment"]
-
-
   location   = "US"
   project_id = "clouddrove"
-
 
   #website
   website = {
@@ -108,5 +105,4 @@ usage : |-
   }
   }]
 }
-
   ```
