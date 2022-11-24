@@ -41,18 +41,6 @@ usage: |-
   Here are some examples of how you can use this module in your inventory structure:
   ### Default Bucket
   ```hcl
-  module "bucket_logs" {
-  source = "../"
-
-  name        = "storage-bucket"
-  environment = "test-log-bukcet"
-  label_order = ["name", "environment"]
-  project_id  = "clouddrove"
-  location    = "US"
-}
-  ```
-  ### Encryption Bucket
-  ```hcl
   module "bucket" {
   source = "../"
 
@@ -107,3 +95,4 @@ usage: |-
   }
   }]
   }
+  ```
