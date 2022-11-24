@@ -52,8 +52,7 @@ usage : |-
   project_id  = "clouddrove"
   location    = "US"
 }
-  ### Encryption Bucket
-  ```hcl
+
   module "bucket" {
   source              = "clouddrove/storage/google"
   version             = "1.0.0"
