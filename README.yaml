@@ -30,19 +30,21 @@ badges:
 
 #  description of this project
 description: |-
-  This terraform module is used for requesting or importing SSL/TLS certificate with validation.
+  Terraform module to create default storage bucket.
 
 # extra content
 include:
   - "terraform.md"
 
 # How to use this project
+# yamllint disable rule:line-length
 usage : |-
   Here are some examples of how you can use this module in your inventory structure:
-  ### gcp-storage
-  ```storage
+  ### Default Bucket
+  ```hcl
   module "bucket_logs" {
-  source = "../"
+  source              = "clouddrove/storage/google"
+  version             = "1.0.0"
 
   name        = "storage-bucket"
   environment = "test-log-bukcet"
@@ -51,8 +53,11 @@ usage : |-
   location    = "US"
 }
   ```
+  ### Encryption Bucket
+  ```hcl
   module "bucket" {
-  source = "../"
+  source              = "clouddrove/storage/google"
+  version             = "1.0.0"
 
   name        = "storage-bucket"
   environment = "test-main-bukcet"
@@ -105,4 +110,5 @@ usage : |-
   }
   }]
 }
+
   ```
