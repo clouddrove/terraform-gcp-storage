@@ -89,5 +89,5 @@ resource "google_storage_bucket_iam_member" "member" {
 
   bucket = join("", google_storage_bucket.bucket.*.name)
   role   = "roles/storage.admin"
-  member = "user:prashant.yadav@clouddrove.com"
+  member = ""
 }
