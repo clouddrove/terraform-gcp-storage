@@ -1,6 +1,7 @@
 module "labels" {
-  source      = "clouddrove/labels/gcp"
-  version     = "1.0.0"
+  source  = "clouddrove/labels/gcp"
+  version = "1.0.0"
+
   name        = var.name
   environment = var.environment
   label_order = var.label_order
@@ -81,4 +82,12 @@ resource "google_storage_bucket" "bucket" {
     }
   }
 
+}
+
+resource "google_storage_bucket_iam_member" "member" {
+  count = var.google_storage_bucket_iam_member_enabled && var.enabled ? 1 : 0
+
+  bucket = join("", google_storage_bucket.bucket.*.name)
+  role   = "roles/storage.admin"
+  member = var.member
 }

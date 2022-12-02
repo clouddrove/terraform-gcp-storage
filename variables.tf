@@ -44,7 +44,7 @@ variable "force_destroy" {
 
 variable "uniform_bucket_level_access" {
   type        = bool
-  default     = false
+  default     = true
   description = "Enables Uniform bucket-level access access to a bucket."
 }
 
@@ -119,4 +119,22 @@ variable "project_id" {
   type        = string
   default     = ""
   description = "GCS Project ID."
+}
+
+variable "google_storage_bucket_iam_member_enabled" {
+  type        = bool
+  default     = true
+  description = "Set to false to prevent the module from creating any resources."
+}
+
+variable "member" {
+  type        = string
+  default     = ""
+  description = "Identities that will be granted the privilege in role"
+}
+
+variable "bucket_id" {
+  type        = string
+  default     = ""
+  description = "Used to find the parent resource to bind the IAM policy to"
 }
