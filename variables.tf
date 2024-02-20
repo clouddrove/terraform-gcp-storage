@@ -141,6 +141,6 @@ variable "bucket_id" {
 
 
 variable "bucket_iam_members" {
-  type    = list(string)
-  
+  type = list(string)
+
 }
