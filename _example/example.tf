@@ -7,11 +7,13 @@ provider "google" {
 module "bucket_logs" {
   source = "../"
 
-  name        = "storage-bucket"
-  environment = "test-log-bukcet"
-  label_order = ["name", "environment"]
-  project_id  = "clouddrove"
-  location    = "US"
+  name               = "storage-bucket"
+  environment        = "test-log-bukcet"
+  label_order        = ["name", "environment"]
+  project_id         = "clouddrove"
+  location           = "US"
+  bucket_iam_members = ["user:example@clouddrove.com"]
+
 }
 
 module "bucket" {
@@ -22,11 +24,11 @@ module "bucket" {
   label_order = ["name", "environment"]
 
 
-  location                                  = "US"
-  project_id                                = "clouddrove"
-  google_storage_bucket_iam_member_enabled  = true
-  bucket_id                                 = module.bucket.bucket.id
-
+  location                                 = "US"
+  project_id                               = "clouddrove"
+  google_storage_bucket_iam_member_enabled = true
+  bucket_id                                = module.bucket.bucket.id
+  bucket_iam_members                       = ["user:example@clouddrove.com"]
 
 
 
