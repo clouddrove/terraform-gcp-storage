@@ -96,6 +96,11 @@ resource "google_storage_bucket_iam_member" "member" {
   member = each.valuefd1bf0ea
 }
 
+resource "google_kms_key_ring" "keyring" {
+  name = lower("${var.keyring_name}-${random_id.rand.hex}")
+  location = var.region
+}
+
 resource "google_kms_crypto_key" "key" {
   name = var.key_name
   key_ring = google_kms_key_ring.keyring.id
