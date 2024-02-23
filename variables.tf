@@ -138,3 +138,9 @@ variable "bucket_id" {
   default     = ""
   description = "Used to find the parent resource to bind the IAM policy to"
 }
+
+
+variable "bucket_iam_members" {
+  type = list(string)
+
+}
