@@ -23,7 +23,7 @@ resource "google_storage_bucket" "bucket" {
   dynamic "encryption" {
     for_each = var.default_kms_key_name != null ? ["encryption"] : []
     content {
-      default_kms_key_name = var.default_kms_key_name
+      default_kms_key_name = google_kms_crypto_key.example-key.id
     }
   }
 
@@ -90,4 +90,19 @@ resource "google_storage_bucket_iam_member" "member" {
   bucket = join("", google_storage_bucket.bucket.*.name)
   role   = "roles/storage.admin"
   member = "user:jane@example.com"
+}
+
+resource "google_kms_key_ring" "keyring" {
+  name     = "keyring-example"
+  location = "global"
+}
+
+resource "google_kms_crypto_key" "example-key" {
+  name            = "crypto-key-example"
+  key_ring        = google_kms_key_ring.keyring.id
+  rotation_period = "7776000s"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
