@@ -23,7 +23,7 @@ resource "google_storage_bucket" "bucket" {
   dynamic "encryption" {
     for_each = var.default_kms_key_name != null ? ["encryption"] : []
     content {
-      default_kms_key_name = google_kms_crypto_key.example-key.id
+      default_kms_key_name = google_kms_crypto_key.key.id
     }
   }
 
@@ -84,26 +84,38 @@ resource "google_storage_bucket" "bucket" {
 
 }
 
+
+data "google_storage_project_service_account" "gcs_account" {
+}
+
 resource "google_storage_bucket_iam_member" "member" {
   for_each = toset(var.bucket_iam_members)
 
   bucket = join("", google_storage_bucket.bucket.*.name)
   role   = "roles/storage.admin"
-  member = each.value
+  member = each.valuefd1bf0ea
 }
 
-resource "google_kms_key_ring" "keyring" {
-  name     = "keyring-example"
-  location = "global"
-}
+resource "google_kms_crypto_key" "key" {
+  name = var.key_name
+  key_ring = google_kms_key_ring.keyring.id
+  rotation_period = var.rotation_period
 
-resource "google_kms_crypto_key" "example-key" {
-  name            = "crypto-key-example"
-  key_ring        = google_kms_key_ring.keyring.id
-  rotation_period = "7776000s"
+  version_template {
+    algorithm = var.algorithm
+  }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 
+resource "google_kms_crypto_key_iam_binding" "crypto_key" {
+
+  crypto_key_id = google_kms_crypto_key.key.id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members       = [
+     "serviceAccount:${data.google_storage_project_service_account.gcs_account.email_address}",
+  ]
+}
