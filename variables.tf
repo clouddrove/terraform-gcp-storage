@@ -123,7 +123,7 @@ variable "project_id" {
 
 variable "google_storage_bucket_iam_member_enabled" {
   type        = bool
-  default     = true
+  default     = ""
   description = "Set to false to prevent the module from creating any resources."
 }
 

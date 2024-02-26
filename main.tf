@@ -92,3 +92,4 @@ resource "google_storage_bucket_iam_member" "member" {
   member = each.value
 }
 
+
