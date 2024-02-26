@@ -85,6 +85,7 @@ resource "google_storage_bucket" "bucket" {
 }
 
 resource "google_storage_bucket_iam_member" "member" {
+  count    = var.google_storage_bucket_iam_member_enabled && var.enabled ? 1 : 0
   for_each = toset(var.bucket_iam_members)
 
   bucket = google_storage_bucket.bucket[0].name
