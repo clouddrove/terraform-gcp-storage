@@ -122,10 +122,11 @@ variable "project_id" {
 }
 
 variable "google_storage_bucket_iam_member_enabled" {
+  description = "Flag to enable or disable Google Storage Bucket IAM member creation."
   type        = bool
-  default     = ""
-  description = "Set to false to prevent the module from creating any resources."
+  default     = false
 }
+
 
 variable "member" {
   type        = string
