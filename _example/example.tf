@@ -12,7 +12,7 @@ module "bucket_logs" {
   label_order        = ["name", "environment"]
   project_id         = "clouddrove"
   location           = "US"
-  bucket_iam_members = ["user:example@clouddrove.com"]
+  bucket_iam_members = ["user:example@example.com"]
 
 }
 

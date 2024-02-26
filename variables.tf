@@ -141,6 +141,7 @@ variable "bucket_id" {
 
 
 variable "bucket_iam_members" {
-  type = list(string)
-
+  description = "A list of IAM (Identity and Access Management) members who have access to the bucket."
+  type        = list(string)
+  default     = []
 }

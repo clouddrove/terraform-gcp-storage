@@ -87,7 +87,7 @@ resource "google_storage_bucket" "bucket" {
 resource "google_storage_bucket_iam_member" "member" {
   for_each = toset(var.bucket_iam_members)
 
-  bucket = join("", google_storage_bucket.bucket.*.name)
+  bucket = google_storage_bucket.bucket[0].name
   role   = "roles/storage.admin"
   member = each.value
 }
