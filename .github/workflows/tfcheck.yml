@@ -1,7 +1,8 @@
 name: tf-checks
 on:
   push:
-    branches: [ feat/master ]
+    branches: 
+       - master 
   pull_request:
   workflow_dispatch:
 jobs:
