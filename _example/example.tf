@@ -28,7 +28,7 @@ module "bucket" {
   project_id                               = "dev-env-3b53"
   google_storage_bucket_iam_member_enabled = true
   bucket_id                                = module.bucket.bucket.id
-  bucket_iam_members                       = ["user:tanveer.shaikh@clouddrove.com", "user:ashutosh.mahajan@clouddrove.com"]
+  bucket_iam_members                       = ["user:example@example.com"]
 
 
 
