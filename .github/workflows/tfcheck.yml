@@ -1,7 +1,7 @@
 name: tf-checks
 on:
   push:
-    branches: [ feat/dynamic-users ]
+    branches: [ feat/master ]
   pull_request:
   workflow_dispatch:
 jobs:
