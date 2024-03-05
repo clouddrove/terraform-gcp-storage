@@ -85,7 +85,7 @@ resource "google_storage_bucket" "bucket" {
 }
 
 resource "google_storage_bucket_iam_member" "member" {
-  for_each = var.enabled && var.google_storage_bucket_iam_member_enabled ? toset(var.bucket_iam_members) : {}
+  for_each = var.enabled && var.google_storage_bucket_iam_member_enabled ? toset(var.bucket_iam_members) : toset([])
 
   bucket = google_storage_bucket.bucket[0].name
   role   = "roles/storage.admin"

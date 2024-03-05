@@ -10,7 +10,7 @@ module "bucket_logs" {
   name               = "storage-bucket"
   environment        = "test-log-bukcet"
   label_order        = ["name", "environment"]
-  project_id         = "clouddrove"
+  project_id         = "dev-env-3b53"
   location           = "US"
   bucket_iam_members = ["user:example@example.com"]
 
@@ -25,10 +25,10 @@ module "bucket" {
 
 
   location                                 = "US"
-  project_id                               = "clouddrove"
+  project_id                               = "dev-env-3b53"
   google_storage_bucket_iam_member_enabled = true
   bucket_id                                = module.bucket.bucket.id
-  bucket_iam_members                       = ["user:example@clouddrove.com"]
+  bucket_iam_members                       = ["user:tanveer.shaikh@clouddrove.com", "user:ashutosh.mahajan@clouddrove.com"]
 
 
 
