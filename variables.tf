@@ -122,10 +122,11 @@ variable "project_id" {
 }
 
 variable "google_storage_bucket_iam_member_enabled" {
+  description = "Flag to enable or disable Google Storage Bucket IAM member creation."
   type        = bool
-  default     = true
-  description = "Set to false to prevent the module from creating any resources."
+  default     = false
 }
+
 
 variable "member" {
   type        = string
@@ -137,4 +138,11 @@ variable "bucket_id" {
   type        = string
   default     = ""
   description = "Used to find the parent resource to bind the IAM policy to"
+}
+
+
+variable "bucket_iam_members" {
+  description = "A list of IAM (Identity and Access Management) members who have access to the bucket."
+  type        = list(string)
+  default     = []
 }

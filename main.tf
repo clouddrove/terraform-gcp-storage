@@ -85,9 +85,11 @@ resource "google_storage_bucket" "bucket" {
 }
 
 resource "google_storage_bucket_iam_member" "member" {
-  count = var.google_storage_bucket_iam_member_enabled && var.enabled ? 1 : 0
+  for_each = var.enabled && var.google_storage_bucket_iam_member_enabled ? toset(var.bucket_iam_members) : toset([])
 
-  bucket = join("", google_storage_bucket.bucket.*.name)
+  bucket = google_storage_bucket.bucket[0].name
   role   = "roles/storage.admin"
-  member = "user:jane@example.com"
+  member = each.value
 }
+
+
