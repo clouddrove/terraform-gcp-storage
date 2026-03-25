@@ -1,0 +1,16 @@
+name: tf-lint
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  tfsec:
+    uses: clouddrove/github-shared-workflows/.github/workflows/tfsec.yml@2.1.1
+    secrets: inherit
+    with:
+      working_directory: '.'
+  tf-checks-complete-example:
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@2.1.1
+    with:
+      working_directory: './examples/'
