@@ -23,7 +23,7 @@ module "bucket" {
 
 
   location                                 = "US"
-  project_id                               = "clouddrove"
+  project_id                               = "clouddrove" 
   google_storage_bucket_iam_member_enabled = true
   bucket_id                                = module.bucket.bucket.id
 

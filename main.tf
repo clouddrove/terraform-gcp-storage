@@ -20,7 +20,7 @@ resource "google_storage_bucket" "bucket" {
   public_access_prevention    = var.public_access_prevention
   requester_pays              = var.requester_pays
 
-  dynamic "encryption" {
+  dynamic "encryption" {   
     for_each = var.default_kms_key_name != null ? ["encryption"] : []
     content {
       default_kms_key_name = var.default_kms_key_name
